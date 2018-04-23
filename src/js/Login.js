@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "../css/Login.css";
+import "../css/Forms.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -24,11 +24,12 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    //TODO
   }
 
   render() {
     return (
-      <div className="Login">
+      <div className="form">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
