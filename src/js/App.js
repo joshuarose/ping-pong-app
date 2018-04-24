@@ -4,14 +4,35 @@ import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import '../css/App.css';
 import Routes from "./Routes";
+import { Cookies, withCookies } from 'react-cookie';
 
 class App extends Component {
     constructor(props) {
       super(props);
 
       this.state = {
-        isAuthenticated: false
+        isAuthenticated: false,
+        isAuthenticating: true
       };
+    }
+
+    async componentDidMount() {
+      try {
+        const cookies = new Cookies();
+
+        if (await cookies.get('pingPongJWT' !== undefined)) {
+          this.userHasAuthenticated(true);
+        }else{
+            console.log(cookies.get('pingPongJWT'));
+        }
+      }
+      catch(e) {
+        if (e !== 'No current user') {
+          alert(e);
+        }
+      }
+
+      this.setState({ isAuthenticating: false });
     }
 
     userHasAuthenticated = authenticated => {
@@ -27,7 +48,9 @@ class App extends Component {
           isAuthenticated: this.state.isAuthenticated,
           userHasAuthenticated: this.userHasAuthenticated
         };
+
     return (
+        !this.state.isAuthenticating &&
         <div className="App container">
             <Navbar fluid collapseOnSelect>
                 <Navbar.Header>
@@ -42,6 +65,9 @@ class App extends Component {
                         {this.state.isAuthenticated
                         ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
                         : <Fragment>
+                            <LinkContainer to="/">
+                                <NavItem>Register</NavItem>
+                            </LinkContainer>
                             <LinkContainer to="/login">
                                 <NavItem>Login</NavItem>
                             </LinkContainer>

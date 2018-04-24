@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Cookies, withCookies } from 'react-cookie';
 import "../css/Forms.css";
 
 export default class Login extends Component {
@@ -22,9 +23,29 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
-    //TODO
+    
+    const cookies = new Cookies();
+
+    fetch('https://player-api.developer.alchemy.codes/api/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "email": this.state.email, 
+        "password": this.state.password})
+    }).then(function(response) {
+    return response.json();
+      }).then(function(data) {
+        cookies.set('pingPongJWT', data.token, { path: '/' });
+      });
+
+    if (cookies.get('pingPongJWT') !== undefined) {
+      this.props.userHasAuthenticated(true);
+    }
   }
 
   render() {

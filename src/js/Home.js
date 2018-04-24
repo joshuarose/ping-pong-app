@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Cookies } from 'react-cookie';
 import "../css/Forms.css";
 
 export default class RegisterUserForm extends Component {
@@ -29,7 +30,7 @@ export default class RegisterUserForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    let resStatus = 0
+    const cookies = new Cookies();
 
     fetch('https://player-api.developer.alchemy.codes/api/user', {
       method: 'POST',
@@ -43,29 +44,12 @@ export default class RegisterUserForm extends Component {
         "email": this.state.email, 
         "password": this.state.password, 
         "confirm_password": this.state.confirmPassword})
-    })
-      .then(res => {
-        resStatus = res.status
-        return res.json()
-      })
-      .then(res => {
-        switch (resStatus) {
-          case 201:
-            console.log('success')
-            break
-          case 409:
-            console.log(res.error.message);
-            break
-          case 500:
-            console.log('server error, try again')
-            break
-          default:
-            console.log("error")
-            break
-        }
-      })
-      .catch(err => {
-        console.error(err)
+    }).then(function(response) {
+      console.log(response)
+    return response.json();
+      }).then(function(data) {
+        cookies.set('pingPongJWT', data.token, { path: '/' });
+        this.props.userHasAuthenticated(true);
       });
   }
 
