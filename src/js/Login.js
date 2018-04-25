@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { LinkContainer } from "react-router-bootstrap";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { Cookies } from 'react-cookie';
 import "../css/Forms.css";
@@ -82,6 +83,10 @@ export default class Login extends Component {
           >
             Login
           </Button>
+
+        <LinkContainer className="text-center col-xs-12 register-link" to="/">
+          <a>Create An Account</a>
+        </LinkContainer>
         </form>
       </div>
     );
