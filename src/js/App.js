@@ -4,7 +4,7 @@ import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import '../css/App.css';
 import Routes from "./Routes";
-import { Cookies, withCookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 
 class App extends Component {
     constructor(props) {
@@ -20,10 +20,10 @@ class App extends Component {
       try {
         const cookies = new Cookies();
 
-        if (await cookies.get('pingPongJWT' !== undefined)) {
+        if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null') {
           this.userHasAuthenticated(true);
         }else{
-            console.log(cookies.get('pingPongJWT'));
+          this.userHasAuthenticated(false);
         }
       }
       catch(e) {
@@ -40,6 +40,9 @@ class App extends Component {
     }
 
     handleLogout = event => {
+      const cookies = new Cookies();
+
+      cookies.set('pingPongJWT', null);
       this.userHasAuthenticated(false);
     }
 
@@ -48,7 +51,6 @@ class App extends Component {
           isAuthenticated: this.state.isAuthenticated,
           userHasAuthenticated: this.userHasAuthenticated
         };
-
     return (
         !this.state.isAuthenticating &&
         <div className="App container">

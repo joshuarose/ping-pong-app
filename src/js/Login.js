@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { Cookies, withCookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 import "../css/Forms.css";
 
 export default class Login extends Component {
@@ -43,8 +43,11 @@ export default class Login extends Component {
         cookies.set('pingPongJWT', data.token, { path: '/' });
       });
 
-    if (cookies.get('pingPongJWT') !== undefined) {
+    if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null') {
       this.props.userHasAuthenticated(true);
+      this.props.history.push("/")
+    }else{
+      this.props.userHasAuthenticated(false);
     }
   }
 

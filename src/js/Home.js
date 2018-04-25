@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, PageHeader, Table, thead, tr, th, tbody, td } from "react-bootstrap";
 import { Cookies } from 'react-cookie';
 import "../css/Forms.css";
+import "../css/Home.css";
 
 export default class RegisterUserForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLoading: true,
+      players: [],
       firstName: "",
       lastName: "",
       email: "",
@@ -15,6 +18,35 @@ export default class RegisterUserForm extends Component {
       confirmPassword: ""
     };
   }
+
+  async componentDidMount(){
+    const cookies = new Cookies();
+
+    if (!this.props.isAuthenticated) {
+      return;
+    }
+
+    try{
+      const players = await this.players;
+      this.setState({players});
+    }catch (e){
+      console.log(e);
+    }
+
+    fetch('https://player-api.developer.alchemy.codes/api/players',{
+      method: 'GET',
+      headers:{
+        'Authorization': 'Bearer '+ cookies.get('pingPongJWT')
+      }
+    }).then(results => {
+      return results.json();
+    }).then(data =>{
+      let players = data.players
+      this.setState({players: players})
+    })
+    this.setState({isLoading:false});
+  }
+  
 
   validateForm() {
     let confirmPasswordError = (this.state.password === this.state.confirmPassword) 
@@ -49,11 +81,32 @@ export default class RegisterUserForm extends Component {
     return response.json();
       }).then(function(data) {
         cookies.set('pingPongJWT', data.token, { path: '/' });
-        this.props.userHasAuthenticated(true);
       });
+
+    if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null') {
+      this.props.userHasAuthenticated(true);
+       this.props.history.push("/")
+    }else{
+      this.props.userHasAuthenticated(false);
+    }
   }
 
-  render() {
+  renderPlayersList(players) {
+    if(players === undefined) { return [] }
+    return(
+        players.map(function(player, i){
+          return(
+            <tr key={player.id}>
+              <td>{player.first_name} {player.last_name}</td>
+              <td>{player.handedness}</td>
+              <td>{player.rating}</td>
+            </tr>
+            )
+        })
+      )
+  }
+
+  renderLander() {
     return (
       <div>
 
@@ -132,4 +185,41 @@ export default class RegisterUserForm extends Component {
       </div>
     );
   }
+
+  renderPlayers() {
+    return (
+      <div className="players">
+      <PageHeader>
+      Your Players
+      </PageHeader>
+
+      <div className="text-right">
+        <Button><a><i className="fas fa-user-plus"></i>Add New Player</a></Button>
+      </div>
+        <Table striped bordered condensed hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Dominant Hand</th>
+              <th>Rating</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {!this.state.isLoading && this.renderPlayersList(this.state.players)}
+          </tbody>
+      </Table>
+      </div>
+    );
+  }
+
+    render(){
+      return(
+        <div className="Home">
+        {this.props.isAuthenticated
+          ? this.renderPlayers()
+          : this.renderLander()}
+        </div>
+        );
+    }
 }
