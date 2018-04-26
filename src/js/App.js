@@ -20,7 +20,7 @@ class App extends Component {
       try {
         const cookies = new Cookies();
 
-        if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null') {
+        if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null' && cookies.get('pingPongJWT') !== undefined) {
           this.userHasAuthenticated(true);
         }else{
           this.userHasAuthenticated(false);

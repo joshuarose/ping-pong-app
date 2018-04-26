@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel, PageHeader, Table, thead, tr, th, tbody, td } from "react-bootstrap";
 import { Cookies } from 'react-cookie';
+import { LinkContainer } from "react-router-bootstrap";
 import "../css/Forms.css";
 import "../css/Home.css";
 
@@ -29,6 +30,7 @@ export default class RegisterUserForm extends Component {
     try{
       const players = await this.players;
       this.setState({players});
+
     }catch (e){
       console.log(e);
     }
@@ -51,6 +53,26 @@ export default class RegisterUserForm extends Component {
   validateForm() {
     let confirmPasswordError = (this.state.password === this.state.confirmPassword) 
     return confirmPasswordError;
+  }
+
+  deletePlayer = (event, player) => {
+    const cookies = new Cookies();
+
+    fetch('https://player-api.developer.alchemy.codes/api/players/'+player.id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer '+ cookies.get('pingPongJWT')
+      }
+    })
+    .then(function(response) {
+    return response.json();
+      }).then(function(data) {
+        if(data.success){
+          window.location.replace('/')
+        }else{
+          console.log(data);
+        }
+      });
   }
 
   handleChange = event => {
@@ -83,7 +105,7 @@ export default class RegisterUserForm extends Component {
         cookies.set('pingPongJWT', data.token, { path: '/' });
       });
 
-    if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null') {
+    if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null' && cookies.get('pingPongJWT') !== undefined) {
       this.props.userHasAuthenticated(true);
        this.props.history.push("/")
     }else{
@@ -100,9 +122,10 @@ export default class RegisterUserForm extends Component {
               <td>{player.first_name} {player.last_name}</td>
               <td>{player.handedness}</td>
               <td>{player.rating}</td>
+              <td><a onClick={(e) => this.deletePlayer(e, player) }><i className="fas fa-trash-alt"></i></a></td>
             </tr>
             )
-        })
+        }, this)
       )
   }
 
@@ -194,7 +217,9 @@ export default class RegisterUserForm extends Component {
       </PageHeader>
 
       <div className="text-right">
-        <Button><a><i className="fas fa-user-plus"></i>Add New Player</a></Button>
+        <LinkContainer to="/player/new">
+          <Button><i className="fas fa-user-plus"></i>Add New Player</Button>
+        </LinkContainer>
       </div>
         <Table striped bordered condensed hover>
           <thead>
@@ -202,6 +227,7 @@ export default class RegisterUserForm extends Component {
               <th>Name</th>
               <th>Dominant Hand</th>
               <th>Rating</th>
+              <th>Delete</th>
             </tr>
           </thead>
 

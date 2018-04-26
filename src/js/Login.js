@@ -41,12 +41,16 @@ export default class Login extends Component {
     }).then(function(response) {
     return response.json();
       }).then(function(data) {
-        cookies.set('pingPongJWT', data.token, { path: '/' });
+        if(data.success){
+          cookies.set('pingPongJWT', data.token, { path: '/' });
+          window.location.replace('/')
+        }else{
+          console.log(data);
+        }
       });
 
-    if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null') {
+    if (cookies.get('pingPongJWT') !== 'undefined' && cookies.get('pingPongJWT') !== 'null' && cookies.get('pingPongJWT') !== undefined) {
       this.props.userHasAuthenticated(true);
-      this.props.history.push("/")
     }else{
       this.props.userHasAuthenticated(false);
     }
@@ -64,6 +68,7 @@ export default class Login extends Component {
               placeholder="emailAddress@gmail.com"
               value={this.state.email}
               onChange={this.handleChange}
+              required
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
@@ -80,6 +85,7 @@ export default class Login extends Component {
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
+            required
           >
             Login
           </Button>
