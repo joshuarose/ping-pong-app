@@ -14,4 +14,14 @@
 
 .players .table {
   margin: 20px 0;
+  background-color: #D6E5D2;
 }
+
+.players .table-striped>tbody>tr:nth-of-type(odd){
+	background-color: #e5eee2;
+}
+
+.players .table-hover>tbody>tr:hover{
+	background-color: #9DC0B9;
+}
+

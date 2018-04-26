@@ -114,7 +114,13 @@ export default class RegisterUserForm extends Component {
   }
 
   renderPlayersList(players) {
-    if(players === undefined) { return [] }
+    if(players === undefined || players.length === 0) { 
+      return (
+        <tr key='none'>
+          <td colSpan="4" className="text-center">Add a new player to see details</td>
+        </tr> 
+        )
+    }
     return(
         players.map(function(player, i){
           return(
@@ -122,7 +128,7 @@ export default class RegisterUserForm extends Component {
               <td>{player.first_name} {player.last_name}</td>
               <td>{player.handedness}</td>
               <td>{player.rating}</td>
-              <td><a onClick={(e) => this.deletePlayer(e, player) }><i className="fas fa-trash-alt"></i></a></td>
+              <td className="text-right"><a onClick={(e) => this.deletePlayer(e, player) }><i className="fas fa-trash-alt"></i></a></td>
             </tr>
             )
         }, this)
@@ -134,7 +140,6 @@ export default class RegisterUserForm extends Component {
       <div>
 
       <div className="text-center">
-        <h1>Ping Pong Manager</h1>
         <h3>Register Account</h3>
       </div>
 
@@ -227,7 +232,7 @@ export default class RegisterUserForm extends Component {
               <th>Name</th>
               <th>Dominant Hand</th>
               <th>Rating</th>
-              <th>Delete</th>
+              <th className="text-right">Delete</th>
             </tr>
           </thead>
 

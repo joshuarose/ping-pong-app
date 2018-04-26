@@ -58,7 +58,14 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="form">
+
+      <div>
+
+        <div className="text-center">
+          <h1>Ping Pong Manager</h1>
+        </div>
+
+        <div className="form">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
@@ -94,6 +101,7 @@ export default class Login extends Component {
           <a>Create An Account</a>
         </LinkContainer>
         </form>
+      </div>
       </div>
     );
   }

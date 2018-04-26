@@ -67,7 +67,7 @@ class App extends Component {
                         {this.state.isAuthenticated
                         ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
                         : <Fragment>
-                            <LinkContainer to="/">
+                            <LinkContainer to="/" exact={true}>
                                 <NavItem>Register</NavItem>
                             </LinkContainer>
                             <LinkContainer to="/login">
@@ -80,6 +80,18 @@ class App extends Component {
             </Navbar>
 
         <Routes childProps={childProps} />
+
+        <footer className="navbar-fixed-bottom">
+          <div className="container">
+            <div className="row">
+              <p className="text-right">         
+              <LinkContainer to="/about">
+                <a>About Amy Howes</a>
+              </LinkContainer></p>
+            </div>
+          </div>
+        </footer>
+
         </div>
         );
         }
