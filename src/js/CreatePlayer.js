@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import React, { Component } from 'react';
+import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { Cookies } from 'react-cookie';
-import Login from './Login'
-import "../css/Forms.css";
+import Login from './Login';
+import '../sass/Forms.css';
 
 export default class CreatePlayer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      firstName: "",
-      lastName: "",
-      rating: "",
-      handedness: "right"
+      firstName: '',
+      lastName: '',
+      rating: '',
+      handedness: 'right'
     };
   }
 
@@ -20,47 +20,48 @@ export default class CreatePlayer extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
-  }
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
-    
+
     const cookies = new Cookies();
 
     fetch('https://player-api.developer.alchemy.codes/api/players', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer '+ cookies.get('pingPongJWT'),
+        Authorization: 'Bearer ' + cookies.get('pingPongJWT'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "first_name": this.state.firstName, 
-        "last_name": this.state.lastName,
-        "rating": this.state.rating, 
-        "handedness": this.state.handedness})
-    }).then(function(response) {
-    return response.json();
-      }).then(function(data) {
-        if(data.success){
-          window.location.replace('/')
-        }else{
+        first_name: this.state.firstName,
+        last_name: this.state.lastName,
+        rating: this.state.rating,
+        handedness: this.state.handedness
+      })
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        if (data.success) {
+          window.location.replace('/');
+        } else {
           console.log(data);
         }
       });
-  }
+  };
 
   renderCreatePlayerForm() {
     return (
-      
-      <div> 
+      <div>
         <div className="text-center">
           <h3>Player Details</h3>
         </div>
 
         <div className="form">
           <form onSubmit={this.handleSubmit}>
-
-          <FormGroup controlId="firstName" bsSize="large">
+            <FormGroup controlId="firstName" bsSize="large">
               <ControlLabel>First Name</ControlLabel>
               <FormControl
                 value={this.state.firstName}
@@ -92,20 +93,18 @@ export default class CreatePlayer extends Component {
             </FormGroup>
             <FormGroup controlId="handedness" bsSize="large">
               <ControlLabel>Handedness</ControlLabel>
-                <FormControl componentClass="select" 
-                  value={this.state.handedness} 
-                  onChange={this.handleChange}
-                  required>
-                  <option value="right">Right</option>
-                  <option value="left">Left</option>
-                </FormControl>
+              <FormControl
+                componentClass="select"
+                value={this.state.handedness}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="right">Right</option>
+                <option value="left">Left</option>
+              </FormControl>
             </FormGroup>
-            <Button
-              block
-              bsSize="large"
-              type="submit"
-            >
-              <i className="fas fa-user-plus"></i>Add New Player
+            <Button block bsSize="large" type="submit">
+              <i className="fas fa-user-plus" />Add New Player
             </Button>
           </form>
         </div>
@@ -113,21 +112,21 @@ export default class CreatePlayer extends Component {
     );
   }
 
-  renderLander(){
-    return(
-    <div>
-        <Login></Login>
-    </div>
-    )
+  renderLander() {
+    return (
+      <div>
+        <Login />
+      </div>
+    );
   }
 
-  render(){
-      return(
-        <div className="Home">
+  render() {
+    return (
+      <div className="Home">
         {this.props.isAuthenticated
           ? this.renderCreatePlayerForm()
           : this.renderLander()}
-        </div>
-        );
-    }
+      </div>
+    );
+  }
 }
