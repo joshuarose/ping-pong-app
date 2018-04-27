@@ -12,7 +12,7 @@ Add new players under your management, and delete them if they don't make the cu
 
 ## Getting Started
 
-Clone this project, and from the command line type `npm install` to get download everything this app needs to run.
+Clone this project, and from the command line type `npm install` to download everything this app needs to run.
 To start using Ping Pong Manager type `npm start`, and let the magic begin. 🤩
 
 
