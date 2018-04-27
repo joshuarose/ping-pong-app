@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import { Cookies } from 'react-cookie';
 import '../sass/Forms.css';
 
@@ -102,14 +102,25 @@ export default class Login extends Component {
               Login
             </Button>
 
-            <LinkContainer
-              className="text-center col-xs-12 register-link"
-              to="/"
-            >
-              <a>Create An Account</a>
-            </LinkContainer>
+            <Col xs={12}>
+              <LinkContainer
+                className="text-center col-xs-12 register-link"
+                to="/"
+              >
+                <a>Create An Account</a>
+              </LinkContainer>
+            </Col>
           </form>
         </div>
+
+        <Col xs={12}>
+          <div className="wrapper">
+            <div className="left_wall"></div>
+            <div className="ball"></div>
+            <div className="right_wall"></div>
+            <div className="clear"></div>
+          </div>
+        </Col>
       </div>
     );
   }

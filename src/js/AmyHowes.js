@@ -29,9 +29,9 @@ export default class About extends Component {
             <p>
               Amy is a web developer, working with AngularJS, front end design
               and implementation. She volunteers as a Chapter Leader for Girl
-              Develop It Cincinnati, which empowers women via technology
+              Develop It Cincinnati, which empowers women via tech
               education. In her free time, she likes to knit, practice yoga,
-              bake, or play with her ferrets.
+              throw down puns, or play with her ferrets.
             </p>
 
             <a

@@ -28,7 +28,7 @@
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > li > a:hover {
-  color: #ded9b7;
+  color: #ffffff;
   background-image: linear-gradient(
     to right top,
     #19255e,
@@ -39,32 +39,8 @@
   );
 }
 
-body {
-  background-image: linear-gradient(
-    to right top,
-    #ded9b7,
-    #e1d8b5,
-    #e4d8b3,
-    #e7d7b1,
-    #ead6af
-  );
-}
-
 .navbar {
   border: none;
-}
-
-a {
-  color: #19255e;
-}
-
-.btn-default,
-.form-control {
-  background-color: #e5eee2;
-}
-
-.btn-default:hover {
-  background-color: #9dc0b9;
 }
 
 .navbar-fixed-bottom {
