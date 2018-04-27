@@ -14,6 +14,7 @@ import {
 } from 'react-bootstrap';
 import { Cookies } from 'react-cookie';
 import { LinkContainer } from 'react-router-bootstrap';
+import {FormErrors} from './components/FormError'
 import '../sass/Forms.css';
 import '../sass/Home.css';
 
@@ -28,7 +29,8 @@ export default class RegisterUserForm extends Component {
       lastName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      formErrors: []
     };
   }
 
@@ -101,6 +103,7 @@ export default class RegisterUserForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
+    let component = this;
     const cookies = new Cookies();
 
     fetch('https://player-api.developer.alchemy.codes/api/user', {
@@ -118,23 +121,18 @@ export default class RegisterUserForm extends Component {
       })
     })
       .then(function(response) {
-        console.log(response);
         return response.json();
       })
       .then(function(data) {
-        cookies.set('pingPongJWT', data.token, { path: '/' });
+        if (data.success) {
+          component.props.userHasAuthenticated(true)
+          cookies.set('pingPongJWT', data.token, { path: '/' });
+          window.location.replace('/');
+        } else {
+          component.setState({formErrors: data.error});
+          component.props.userHasAuthenticated(false);
+        }
       });
-
-    if (
-      cookies.get('pingPongJWT') !== 'undefined' &&
-      cookies.get('pingPongJWT') !== 'null' &&
-      cookies.get('pingPongJWT') !== undefined
-    ) {
-      this.props.userHasAuthenticated(true);
-      this.props.history.push('/');
-    } else {
-      this.props.userHasAuthenticated(false);
-    }
   };
 
   renderPlayersList(players) {
@@ -174,6 +172,9 @@ export default class RegisterUserForm extends Component {
 
         <div className="form">
           <form onSubmit={this.handleSubmit}>
+
+            <FormErrors formErrors={this.state.formErrors} />
+
             <FormGroup controlId="firstName" bsSize="large">
               <ControlLabel>First Name</ControlLabel>
               <FormControl

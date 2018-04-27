@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Button, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import { Cookies } from 'react-cookie';
+import {FormErrors} from './components/FormError'
 import '../sass/Forms.css';
 
 export default class Login extends Component {
@@ -10,7 +11,8 @@ export default class Login extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      formErrors: []
     };
   }
 
@@ -27,6 +29,7 @@ export default class Login extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
+    let component = this;
     const cookies = new Cookies();
 
     fetch('https://player-api.developer.alchemy.codes/api/login', {
@@ -45,22 +48,15 @@ export default class Login extends Component {
       })
       .then(function(data) {
         if (data.success) {
+          component.props.userHasAuthenticated(true)
           cookies.set('pingPongJWT', data.token, { path: '/' });
           window.location.replace('/');
         } else {
-          console.log(data);
+          component.setState({formErrors: data.error});
+          component.props.userHasAuthenticated(false);
+          console.log(component.props.formErrors);
         }
       });
-
-    if (
-      cookies.get('pingPongJWT') !== 'undefined' &&
-      cookies.get('pingPongJWT') !== 'null' &&
-      cookies.get('pingPongJWT') !== undefined
-    ) {
-      this.props.userHasAuthenticated(true);
-    } else {
-      this.props.userHasAuthenticated(false);
-    }
   };
 
   render() {
@@ -72,6 +68,9 @@ export default class Login extends Component {
 
         <div className="form">
           <form onSubmit={this.handleSubmit}>
+
+            <FormErrors formErrors={this.state.formErrors} />
+
             <FormGroup controlId="email" bsSize="large">
               <ControlLabel>Email</ControlLabel>
               <FormControl
