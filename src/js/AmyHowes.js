@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Col } from 'react-bootstrap';
 import '../sass/About.css';
+import githubLogo from "./../images/github.svg";
+import twitterLogo from "./../images/twitter.svg";
+import linkedinLogo from "./../images/linkedin.svg";
 
 export default class About extends Component {
   render() {
@@ -51,21 +54,21 @@ export default class About extends Component {
               rel="noopener noreferrer"
               href="https://github.com/thecodeferret"
             >
-              <img src="/images/github.svg" alt="Amy on github" />
+              <img src={githubLogo} alt="Amy on github" />
             </a>
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://twitter.com/acodeferret"
             >
-              <img src="/images/twitter.svg" alt="Amy on twitter" />
+              <img src={twitterLogo} alt="Amy on twitter" />
             </a>
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.linkedin.com/in/thecodeferret/"
             >
-              <img src="/images/linkedin.svg" alt="Amy on linkedin" />
+              <img src={linkedinLogo} alt="Amy on linkedin" />
             </a>
           </section>
         </Col>
