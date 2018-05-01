@@ -48,9 +48,9 @@ export default class Login extends Component {
       })
       .then(function(data) {
         if (data.success) {
-          component.props.userHasAuthenticated(true)
+          component.props.userHasAuthenticated(true);
           cookies.set('pingPongJWT', data.token, { path: '/' });
-          component.props.history.push('/')
+          component.props.history.push('/');
         } else {
           component.setState({formErrors: data.error});
           component.props.userHasAuthenticated(false);

@@ -71,6 +71,7 @@ export default class RegisterUserForm extends Component {
   }
 
   deletePlayer = (event, player) => {
+    let component = this;
     const cookies = new Cookies();
 
     fetch(
@@ -87,7 +88,7 @@ export default class RegisterUserForm extends Component {
       })
       .then(function(data) {
         if (data.success) {
-          window.location.replace('/');
+          component.props.history.push('/');
         } else {
           console.log(data);
         }
@@ -127,7 +128,7 @@ export default class RegisterUserForm extends Component {
         if (data.success) {
           component.props.userHasAuthenticated(true)
           cookies.set('pingPongJWT', data.token, { path: '/' });
-          window.location.replace('/');
+          component.props.history.push('/');
         } else {
           component.setState({formErrors: data.error});
           component.props.userHasAuthenticated(false);
