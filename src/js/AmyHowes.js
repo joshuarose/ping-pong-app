@@ -51,21 +51,21 @@ export default class About extends Component {
               rel="noopener noreferrer"
               href="https://github.com/thecodeferret"
             >
-              <img src="./images/github.svg" alt="Amy on github" />
+              <img src="/images/github.svg" alt="Amy on github" />
             </a>
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://twitter.com/acodeferret"
             >
-              <img src="./images/twitter.svg" alt="Amy on twitter" />
+              <img src="/images/twitter.svg" alt="Amy on twitter" />
             </a>
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.linkedin.com/in/thecodeferret/"
             >
-              <img src="./images/linkedin.svg" alt="Amy on linkedin" />
+              <img src="/images/linkedin.svg" alt="Amy on linkedin" />
             </a>
           </section>
         </Col>

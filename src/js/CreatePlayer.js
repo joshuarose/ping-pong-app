@@ -25,6 +25,7 @@ export default class CreatePlayer extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
+    let component = this;
     const cookies = new Cookies();
 
     fetch('https://player-api.developer.alchemy.codes/api/players', {
@@ -45,7 +46,7 @@ export default class CreatePlayer extends Component {
       })
       .then(function(data) {
         if (data.success) {
-          window.location.replace('/');
+          component.props.history.push('/');
         } else {
           console.log(data);
         }

@@ -7,7 +7,8 @@ import registerServiceWorker from './registerServiceWorker';
 import { CookiesProvider } from 'react-cookie';
 
 ReactDOM.render(
-  <Router>
+  <Router
+  	basename="/ping-pong-app">
     <CookiesProvider>
       <App />
     </CookiesProvider>
