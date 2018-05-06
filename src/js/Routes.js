@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import RegisterUserForm from './Home';
+import Home from './Home';
 import Login from './Login';
 import AppliedRoute from './components/AppliedRoute';
 import CreatePlayer from './CreatePlayer';
@@ -11,7 +11,7 @@ export default ({ childProps }) => (
     <AppliedRoute
       path="/"
       exact
-      component={RegisterUserForm}
+      component={Home}
       props={childProps}
     />
     <AppliedRoute path="/login" exact component={Login} props={childProps} />
@@ -22,6 +22,6 @@ export default ({ childProps }) => (
       props={childProps}
     />
     <Route path="/about" exact component={About} />
-    <AppliedRoute component={RegisterUserForm} props={childProps} />
+    <AppliedRoute component={Home} props={childProps} />
   </Switch>
 );

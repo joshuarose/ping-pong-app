@@ -30,7 +30,14 @@ export default class Login extends Component {
     event.preventDefault();
 
     let component = this;
+    let props;
     const cookies = new Cookies();
+
+    if(component.props.childProps){
+      props = component.props.childProps;
+    }else{
+      props = component.props;
+    }
 
     fetch('https://player-api.developer.alchemy.codes/api/login', {
       method: 'POST',
@@ -48,12 +55,14 @@ export default class Login extends Component {
       })
       .then(function(data) {
         if (data.success) {
-          component.props.userHasAuthenticated(true);
           cookies.set('pingPongJWT', data.token, { path: '/' });
-          component.props.history.push('/');
+
+          props.userHasAuthenticated(true);
+          props.history.push('/');
         } else {
           component.setState({formErrors: data.error});
-          component.props.userHasAuthenticated(false);
+
+          props.userHasAuthenticated(false);
         }
       });
   };

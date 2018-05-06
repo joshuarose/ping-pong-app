@@ -116,7 +116,7 @@ export default class CreatePlayer extends Component {
   renderLander() {
     return (
       <div>
-        <Login />
+        <Login childProps={this.props} />
       </div>
     );
   }
