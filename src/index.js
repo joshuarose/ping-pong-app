@@ -5,15 +5,15 @@ import './sass/index.css';
 import App from './js/App';
 import registerServiceWorker from './registerServiceWorker';
 import { CookiesProvider } from 'react-cookie';
+import 'whatwg-fetch';
 
 ReactDOM.render(
-  <Router
-  	basename="/ping-pong-app">
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
-  </Router>,
-  document.getElementById('root')
+	<Router basename="/">
+		<CookiesProvider>
+			<App />
+		</CookiesProvider>
+	</Router>,
+	document.getElementById('root')
 );
 
 registerServiceWorker();
